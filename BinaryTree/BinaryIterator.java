@@ -7,9 +7,11 @@ public class BinaryIterator implements java.util.Iterator{
 
 	//public constructor
 	public BinaryIterator(BinaryTree tree){
+
 		this.tree = tree;
 		this.order = new BinaryTree[tree.size()];
 		preOrderIterate();
+
 	}
 
 	public BinaryTree[] getOrder(){
@@ -29,12 +31,15 @@ public class BinaryIterator implements java.util.Iterator{
 	}
 
 	public BinaryTree next(){
+
 		int temp = nodeNumber;
 		this.nodeNumber++;
 		return this.order[temp];
+
 	}
 
 	private void preOrderIterate(){
+
 		CustomizedStack treeStack = new CustomizedStack();
 
 		for(int i = 0; i < this.order.length; i++){
@@ -44,26 +49,31 @@ public class BinaryIterator implements java.util.Iterator{
 				this.tree = this.tree.getLeftSubTree();
 				i++;
 			}
+
 			else if(this.tree.hasRootData() && this.tree.hasLeftSubTree() && !this.tree.hasRightSubTree()){
 				this.order[i] = this.tree;
 				this.tree = this.tree.getLeftSubTree();
 				i++;
 			}
+
 			else if(this.tree.hasRootData() && !this.tree.hasLeftSubTree() && this.tree.hasRightSubTree()){
 				this.order[i] = this.tree;
 				this.tree = this.tree.getRightSubTree();
 				i++;
 			}
+
 			else if(this.tree.hasRootData() && !this.tree.hasLeftSubTree() && !this.tree.hasRightSubTree() && !treeStack.isEmpty()){
 				this.order[i] = this.tree;
 				this.tree = treeStack.pop().getRightSubTree();
 				i++;
 			}
+			
 			else if(this.tree.hasRootData() && !this.tree.hasLeftSubTree() && !this.tree.hasRightSubTree() && treeStack.isEmpty()){
 				this.order[i] = this.tree;
 				i++;
 			}
 		}
+
 	}
 
 	public void remove(){

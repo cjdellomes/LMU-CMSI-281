@@ -10,65 +10,81 @@ public class BinaryTree implements java.util.Collection{
 	
 	//public constructor
 	public BinaryTree(){
+
 		this.rootData = null;
 		this.leftSubTree = null;
 		this.rightSubTree = null;
 		this.father = null;
 		this.size = 0;
 		this.iterator = new BinaryIterator(this);
+
 	}
 
 	/** Adds a new subtree to the binary tree. New subtree appears first in inorder traversal. */
 	public boolean add(Object o){
+
 		BinaryTree bt = createFromData(this.getRootData(), this.leftSubTree, this.rightSubTree);
         setSubTrees(bt, null);
         setRootData(o);
         setSize(size + 1);
         this.iterator = new BinaryIterator(this);
         return true;
+
 	}
 
 	/** Returns true each object in the collection was added to the collection. */
 	public boolean addAll(java.util.Collection collection){
+
 		for(Object o: collection){
 			if(!add(o)){
 				return false;
 			}
 		}
+
 		return true;
+
 	}
 
 	/** Removes all elements from the binary tree. */
 	public void clear(){
+
 		setSubTrees(null,null);
 		setRootData(null);
 		setFather(null);
 		setSize(0);
+
 	}
 
 	/** Returns true if the binary tree contains the object. */
 	public boolean contains(Object o){
+
 		this.iterator.setNodeNumber(0);
         while (this.iterator.hasNext()){
             if (this.iterator.next().equals(o)){
             	return true;
             }
         }
+
         return false;
+
 	}
 
 	/** Returns true if every element of the collection is in the binary tree. */
 	public boolean containsAll(java.util.Collection collection){
+
 		for(Object o: collection){
 			if(!contains(o)){
 				return false;
 			}
 		}
+
 		return true;
+
 	}
 
 	/** Creates a new tree from its three arguments in the obvious way. */
 	public static BinaryTree createFromData(Object rootData, BinaryTree leftSubTree, BinaryTree rightSubTree){
+
 		BinaryTree tree = new BinaryTree();
 		tree.setRootData(rootData);
 		tree.setSubTrees(leftSubTree,rightSubTree);
@@ -82,17 +98,21 @@ public class BinaryTree implements java.util.Collection{
 		}
 		tree.iterator = new BinaryIterator(tree);
 		return tree;
+
 	}
 
 	/** Returns the tree with root data equal to the object o. */
 	public BinaryTree find(Object o){
+
 		this.iterator.setNodeNumber(0);
         while(this.iterator.hasNext()){
             if(this.iterator.current().equals(o)){
             	return this.iterator.next();
             }
         }
+
         return null;
+
 	}
 
 	/** Returns this tree's father. */
@@ -156,12 +176,15 @@ public class BinaryTree implements java.util.Collection{
 
 	/** Returns true if given tree is a left son and false if right son. */
 	public boolean isLeftSon(Object o){
+
 		if(this.leftSubTree.getRootData().equals(o)){
 			return true;
 		}
+
 		else{
 			return false;
 		}
+
 	}
 
 	/** Returns a preorder iterator over the tree. */
@@ -169,54 +192,65 @@ public class BinaryTree implements java.util.Collection{
 		return new BinaryIterator(this);
 	}
 
-	/** Returns true if all the elements in the collection were retained. */
+	/** Returns true if all the elements in the collection were retained. Yet to be implemented.*/
 	public boolean retainAll(java.util.Collection collection){
 		throw new UnsupportedOperationException();
 	}
 
 	/** Returns true if the node with the object was removed. */
-	public boolean remove(Object o) {
+	public boolean remove(Object o){
+
         iterator.setNodeNumber(0);
         BinaryTree toRemove;
         boolean isLeft;
-        if(contains(o)) {
+
+        if(contains(o)){
             toRemove = find(o);
-            if (toRemove.hasNoSubTree()) {
+            if(toRemove.hasNoSubTree()){
                 isLeft = toRemove.getFather().isLeftSon(toRemove);
-                if (isLeft == true) {
+                if(isLeft){
                     toRemove.getFather().setSubTrees(null,toRemove.getFather().getRightSubTree());
                     return true;
                 }
-                else if (isLeft == false) {
+
+                else if(!isLeft){
                     toRemove.getFather().setSubTrees(toRemove.getFather().getRightSubTree(), null);
                     return true;
                 }
             }
+
             else{
             	isLeft = toRemove.getFather().isLeftSon(toRemove);
             	if(toRemove.hasLeftSubTree() && toRemove.hasRightSubTree()){
-            		if(isLeft == true){
+            		if(isLeft){
             			toRemove.getFather().setSubTrees(toRemove.getLeftSubTree(), toRemove.getFather().getRightSubTree());
             			return true;
             		}
+
             		else{
             			toRemove.getFather().setSubTrees(toRemove.getFather().getRightSubTree(), toRemove.getRightSubTree());
             			return true;
             		}
             	}
+
             	else if(toRemove.hasLeftSubTree() && !toRemove.hasRightSubTree()){
-            		if(isLeft == true){
+            		if(isLeft){
             			toRemove.getFather().setSubTrees(toRemove.getLeftSubTree(), toRemove.getFather().getRightSubTree());
             			return true;
             		}
+
             		else{
             			toRemove.getFather().setSubTrees(toRemove.getFather().getLeftSubTree(), toRemove.getLeftSubTree());
+            			return true;
             		}
             	}
+
             	else if(!toRemove.hasLeftSubTree() && toRemove.hasRightSubTree()){
-            		if(isLeft == true){
+            		if(isLeft){
             			toRemove.getFather().setSubTrees(toRemove.getRightSubTree(), toRemove.getFather().getRightSubTree());
+            			return true;
             		}
+
             		else{
             			toRemove.getFather().setSubTrees(toRemove.getFather().getLeftSubTree(), toRemove.getRightSubTree());
             			return true;
@@ -224,17 +258,22 @@ public class BinaryTree implements java.util.Collection{
             	}
             }
         }
+
         return false;
+
     }
 
 	/** Returns true if all elements in the collection were removed. */
 	public boolean removeAll(java.util.Collection collection){
+
 		for(Object o: collection){
 			if(!remove(o)){
 				return false;
 			}
 		}
+
 		return true;
+
 	}
 
 	/** Sets this tree's father to the specified tree. */
@@ -243,12 +282,18 @@ public class BinaryTree implements java.util.Collection{
 	}
 
 	public void setSubTrees(BinaryTree left, BinaryTree right){
+
 		this.leftSubTree = left;
         this.rightSubTree = right;
         setSize(0);
-        if (left != null) setSize(left.getSize());
-        if (right != null) setSize(right.getSize());
+        if (left != null){
+        	setSize(left.getSize());
+        }
+        if (right != null){
+        	setSize(right.getSize());
+        }
         this.iterator.setNodeNumber(0);
+
 	}
 
 	/** Sets this tree's root data to the specified object. */
