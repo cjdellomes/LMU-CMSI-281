@@ -178,19 +178,50 @@ public class BinaryTree implements java.util.Collection{
 	public boolean remove(Object o) {
         iterator.setNodeNumber(0);
         BinaryTree toRemove;
-        boolean whichTree;
+        boolean isLeft;
         if(contains(o)) {
             toRemove = find(o);
             if (toRemove.hasNoSubTree()) {
-                whichTree = toRemove.getFather().isLeftSon(toRemove);
-                if (whichTree == true) {
+                isLeft = toRemove.getFather().isLeftSon(toRemove);
+                if (isLeft == true) {
                     toRemove.getFather().setSubTrees(null,toRemove.getFather().getRightSubTree());
                     return true;
                 }
-                else if (whichTree == false) {
+                else if (isLeft == false) {
                     toRemove.getFather().setSubTrees(toRemove.getFather().getRightSubTree(), null);
                     return true;
                 }
+            }
+            else{
+            	isLeft = toRemove.getFather().isLeftSon(toRemove);
+            	if(toRemove.hasLeftSubTree() && toRemove.hasRightSubTree()){
+            		if(isLeft == true){
+            			toRemove.getFather().setSubTrees(toRemove.getLeftSubTree(), toRemove.getFather().getRightSubTree());
+            			return true;
+            		}
+            		else{
+            			toRemove.getFather().setSubTrees(toRemove.getFather().getRightSubTree(), toRemove.getRightSubTree());
+            			return true;
+            		}
+            	}
+            	else if(toRemove.hasLeftSubTree() && !toRemove.hasRightSubTree()){
+            		if(isLeft == true){
+            			toRemove.getFather().setSubTrees(toRemove.getLeftSubTree(), toRemove.getFather().getRightSubTree());
+            			return true;
+            		}
+            		else{
+            			toRemove.getFather().setSubTrees(toRemove.getFather().getLeftSubTree(), toRemove.getLeftSubTree());
+            		}
+            	}
+            	else if(!toRemove.hasLeftSubTree() && toRemove.hasRightSubTree()){
+            		if(isLeft == true){
+            			toRemove.getFather().setSubTrees(toRemove.getRightSubTree(), toRemove.getFather().getRightSubTree());
+            		}
+            		else{
+            			toRemove.getFather().setSubTrees(toRemove.getFather().getLeftSubTree(), toRemove.getRightSubTree());
+            			return true;
+            		}
+            	}
             }
         }
         return false;
