@@ -1,161 +1,71 @@
 import java.util.ArrayList;
 
-public class StringBagArrayList extends java.util.ArrayList implements SimpleCollection{
+public class StringBagArrayList extends ArrayList implements SimpleCollection{
 
-	//private instances
-	private int capacity;
-	private Object[] objArray;
+    ArrayList list;
 
-	/** Initializes an empty StringBag. */
-	public StringBagArrayList(){
+	public StringBagArrayList() {
 
-		capacity = 0;
-		objArray = new Object[capacity];
+        ArrayList list = new ArrayList();
+        this.list = list;
 
 	}
 
-	/** Classwide method for removing an element. */
-	public static void removeElt(Object[] arr, int remIndex ){
 
-   		for (int i = remIndex; i < arr.length - 1; i++){
-    		arr[i] = arr[i + 1] ; 
-   		}
+    public boolean add ( Object  o ) {
 
-	}
-
-	/** Ensures that this collection contains the specified element (optional operation). */
-    public boolean add ( Object o ){
-
-        try{
-
-            String check = o.toString();
-
-            if(!check.equals(o)){
+        try {
+            if(! (o instanceof String)){
                 return false;
             }
-
+            return this.list.add(o);
         }
-
-        catch(Exception e){
+        catch(Exception e) {
             return false;
         }
 
-        if(o == null){
-            return false;
-        }
+    }
+    
+    public void clear() {
 
-        else{
-
-    	   try{
-
-    	   	Object[] placeHolder = objArray;
-
-    	   	capacity++;
-    	   	objArray = new Object[capacity];
-
-    	   	for(int i = 0; i < capacity-1; i++){
-    	   		objArray[i] = placeHolder[i];
-    	   	}
-
-    	   	objArray[capacity-1] = o;
-
-    	   	return true;
-
-    	   }
-    	
-    	   catch (Exception e){
-    		  return false;
-    	   }
-
-        }
+    	this.list = new ArrayList();
 
     }
     
-    /** Removes all of the elements from this collection (optional operation). */
-    public void clear(){
+    public boolean contains ( Object o ) {
 
-    	objArray = null;
-    	capacity = 0;
+    	return this.list.contains(o);
 
     }
     
-    /** Returns true if this collection contains the specified element. */
-    public boolean contains ( Object o ){
+    public boolean isEmpty() {
 
-    	boolean doesContain = false;
-
-    	for(int i = 0; i < capacity; i++){
-
-            if(objArray[i].equals(o)){
-                doesContain = true;
-            }
-
-        }
-    	
-    	return doesContain;
+    	return this.list.size() == 0;
 
     }
     
-    /** Returns true if this collection contains no elements. */
-    public boolean isEmpty(){
-
-    	return capacity == 0;
-
-    }
-    
-    /** Removes a single instance of the specified element from this collection, if it is present. */
-    public boolean remove ( Object o ){
+    public boolean remove ( Object o ) {
 
 
-    	try{
-
-            if(contains(o)){
-
-    		    for(int i = 0; i < capacity; i++){
-
-                    if(objArray[i].equals(o)){
-
-                    	removeElt(objArray, i);
-                    	Object[] placeHolder = new Object[capacity-1];
-
-                    	for(int j = 0; j < placeHolder.length; j++){
-                    		placeHolder[j] = objArray[j];
-                    	}
-
-                    	objArray = placeHolder;
-                    	capacity--;
-
-                    }
-
-                }
-
-                return true;
-
-            }
-
-            else{
-                return false;
-            }
-
+    	try {
+            return this.list.remove(o);    
     	}
 
-    	catch (Exception e){
+    	catch (Exception e) {
     		return false;
     	}
 
     }
     
-    /** Returns the number of elements in this collection. */
-    public int size(){
+    public int size() {
 
-    	return capacity;
+    	return this.list.size();
 
     }
     
-    /** Returns an array containing all of the elements in this collection. */
-    public Object[] toArray(){
+    public Object[] toArray() {
 
-    	return objArray;
+    	return this.list.toArray();
 
     }
 
